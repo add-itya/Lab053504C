@@ -1,79 +1,68 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include "StringData.h"
-
 using namespace std;
 
-int linear_search(vector<string> container, string element)
-{
-    for (int index=0; index < container.size(); index++)
-    {
-        if (container[index] == element) {
-            return index;
+int linear_search(vector<string> container, string element) {
+    for (int i = 0; i < container.size(); i++) {
+        if (container[i] == element) {
+            return i;
         }
     }
     return -1;
 }
 
-int binary_search(vector<string> container, string element)
-{
-    int lower = 0;
-    int upper = container.size() - 1;
-    while(lower <= upper)
-    {
-        int middle = lower + (upper-lower) / 2;
-        if (container[middle] > element)
-            upper = middle - 1;
-        else if (container[middle] < element)
-            lower = middle + 1;
-        else
-            return middle;
+int binary_search(vector<string> container, string element) {
+    int min = 0;
+    int max = container.size()- 1;
+    int mid = floor((min + max) / 2);
+    while (min < max) {
+        if(container[mid] == element){
+            return mid;
+        }
+        if(container[min] == element){
+            return min;
+        }
+        if(container[max] == element){
+            return max;
+        }
+        if (element > container[mid]) {
+            min = mid + 1;
+            mid = floor((min + max) / 2);
+        }
+        if (element < container[mid]) {
+            max = mid - 1;
+            mid = floor((min + max) / 2);
+        }
+        return -1;
     }
-    return -1;
+    return mid;
 }
 
-int main() {
-
+int main()
+{
+    long long start_time = systemTimeNanoseconds();
     vector<string> container = getStringData();
 
-    cout << "Linear Search time for \"not_here\" (nanoseconds): ";
-    long long starting_time = systemTimeNanoseconds();
-    int index = linear_search(container, "not_here");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
+    cout << "Word: not_here" << endl;
+    cout << "Linear search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << linear_search(container, "not_here") << endl;
+    cout << "Binary search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << binary_search(container, "not_here") << endl;
+    cout << "" << endl;
 
-    cout << "Binary Search time for \"not_here\" (nanoseconds): ";
-    starting_time = systemTimeNanoseconds();
-    index = binary_search(container, "not_here");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
+    start_time = systemTimeNanoseconds();
+    cout << "Word: mzzzz" << endl;
+    cout << "Linear search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << linear_search(container, "mzzzz") << endl;
+    cout << "Binary search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << binary_search(container, "mzzzz") << endl;
+    cout << "" << endl;
 
-    cout << "\nLinear Search time for \"mzzzz\" (nanoseconds): ";
-    starting_time = systemTimeNanoseconds();
-    index = linear_search(container, "mzzzz");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
-
-    cout << "Binary Search time for \"mzzzz\" (nanoseconds): ";
-    starting_time = systemTimeNanoseconds();
-    index = binary_search(container, "mzzzz");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
-
-    cout << "\nLinear Search time for \"aaaaa\" (nanoseconds): ";
-    starting_time = systemTimeNanoseconds();
-    index = linear_search(container, "aaaaa");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
-
-    cout << "Binary Search time for \"aaaaa\" (nanoseconds): ";
-    starting_time = systemTimeNanoseconds();
-    index = binary_search(container, "aaaaa");
-    cout << systemTimeNanoseconds() - starting_time << endl;
-    cout << "Index of element: " + to_string(index)<< endl;
+    start_time = systemTimeNanoseconds();
+    cout << "aaaaa" << endl;
+    cout << "Linear search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << linear_search(container, "aaaaa") << endl;
+    cout << "Binary search time: " <<  systemTimeNanoseconds() - start_time << " Index found: " << binary_search(container, "aaaaa") << endl;
+    cout << "" << endl;
 
     return 0;
 }
-
 
 
